@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletImpact : MonoBehaviour
 {
     [SerializeField] GameObject enemyExplosion;
+    [SerializeField] GameObject enemyCollider;
     [SerializeField] AudioSource enemySFX;
     // Start is called before the first frame update
     void Start()
@@ -31,7 +32,7 @@ public class BulletImpact : MonoBehaviour
 
     private IEnumerator EnemyDestruction(){
 
-            
+            enemyCollider.GetComponent<Collider>().enabled=false;
             Renderer rendererPlayer = GetComponent<Renderer>();
             rendererPlayer.enabled = false;
             Collider playerCollider = GetComponent<Collider>();

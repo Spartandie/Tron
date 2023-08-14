@@ -613,4 +613,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyExplosion: {fileID: 1958529352887822729}
+  enemyCollider: {fileID: 1170418328824331840}
   enemySFX: {fileID: 3892619894288491029}
