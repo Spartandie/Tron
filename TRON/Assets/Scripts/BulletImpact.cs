@@ -31,6 +31,7 @@ public class BulletImpact : MonoBehaviour
 
     private IEnumerator EnemyDestruction(){
 
+            
             Renderer rendererPlayer = GetComponent<Renderer>();
             rendererPlayer.enabled = false;
             Collider playerCollider = GetComponent<Collider>();
