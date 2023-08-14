@@ -21649,6 +21649,10 @@ PrefabInstance:
       propertyPath: m_Drag
       value: 16.19
       objectReference: {fileID: 0}
+    - target: {fileID: 7632436930656525263, guid: 2af2361302d88c142a3a8409ea21b5f9, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7909780746350106000, guid: 2af2361302d88c142a3a8409ea21b5f9, type: 3}
       propertyPath: enemyExplosion
       value: 
