@@ -1,2 +1,2 @@
 # Tron
- Proyecto creado por integrantes de SODVI FI UNAM
+ Proyecto creado por Monroy Salazar Diego Gustavo, integrante de SODVI FI UNAM
