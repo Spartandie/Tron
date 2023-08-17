@@ -31,7 +31,7 @@ public class ButtonUI : MonoBehaviour
 
     public void Reiniciar(){
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Juego");
+        SceneManager.LoadScene("Jueaago");
     }
 
      public void Menu(){
