@@ -15,7 +15,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] AudioSource playerExplosionSFX;
     [SerializeField] AudioSource theGridSFX;
     [SerializeField] GameObject buttonUI; 
-
+    [SerializeField] float turnSpeed = 50f;
+    bool lookUp;
+    bool lookDown;
+    bool lookR;
+    bool lookL;
 
     float velocidadTemp;
     
@@ -32,17 +36,7 @@ public class PlayerController : MonoBehaviour
         mover();
         turbo();
 
-
-        //------------------------ Control de cámara --------------------------
-        // Rotate the camera based on the mouse movement
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
-        transform.eulerAngles += new Vector3(-mouseY * sensitivity, mouseX * sensitivity, 0);
-
-        Vector3 rotationAmount = new Vector3(mouseX, 0, 0) * sensitivity;
-        // Debug.Log("mouseX: " + mouseX);
-        //Debug.Log("rotationAmount: "+ rotationAmount.x);
-        player.transform.Rotate(rotationAmount);
+        //cameraControl();
 
     }
 
@@ -66,16 +60,114 @@ public class PlayerController : MonoBehaviour
     //Se encarga de mover continuamente al jugador en su eje local Z
     public void mover(){
 
+        float yaw = turnSpeed * Time.deltaTime * Input.GetAxis("Horizontal");
+        transform.Rotate(0,0,yaw);
+        if(Input.GetAxis("Vertical") > 0){
+            // Calcula el desplazamiento en la dirección negativa del eje local X.
+            Vector3 localMovement = new Vector3(-velocidad * Time.deltaTime * Input.GetAxis("Vertical"), 0, 0);
 
-        // Obtén la dirección del eje local Z del objeto
-        Vector3 localZDirection = transform.forward;
+            // Transforma el desplazamiento al espacio del mundo.
+            Vector3 worldMovement = transform.TransformDirection(localMovement);
 
-        // Calcula el desplazamiento basado en la dirección del eje local Z y la velocidad
-        float displacement = velocidad * Time.deltaTime;
+            // Actualiza la posición del objeto en el espacio del mundo.
+            transform.position += worldMovement;
+        }
+        /*
+        // Calcula el desplazamiento en la dirección negativa del eje local X.
+        Vector3 localMovement = new Vector3(-velocidad * Time.deltaTime, 0, 0);
 
-        // Mueve el objeto en su eje local Z
-        transform.position += localZDirection * displacement;
+        // Transforma el desplazamiento al espacio del mundo.
+        Vector3 worldMovement = transform.TransformDirection(localMovement);
 
+        // Actualiza la posición del objeto en el espacio del mundo.
+        transform.position += worldMovement;
+        */
+
+
+    }
+
+    public void cameraControl(){
+        
+        //------------------------ Control de cámara --------------------------
+        // Rotate the camera based on the mouse movement
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+
+        //Si mira hacia la derecha
+        if(mouseX > 0 ){
+            lookR = true;
+            lookDown = false;
+            lookL = false;
+            lookUp = false;
+        }
+        //Si mira hacia la izquierda
+        if(mouseX < 0 ){
+            lookL = true;
+            lookR = false;
+            lookDown = false;
+            lookUp = false;
+        }
+        //Si mira hacia arriba
+        if(mouseY > 0 ){
+            lookL = false;
+            lookR = false;
+            lookDown = false;
+            lookUp = true;
+        }
+        //Si mira hacia abajo
+        if(mouseY < 0 ){
+            lookL = false;
+            lookR = false;
+            lookDown = true;
+            lookUp = false;
+        }
+
+
+
+        if(lookR){
+            // Calcula el desplazamiento en la dirección negativa del eje local y.
+            Vector3 localMovement = new Vector3(0, -velocidad * Time.deltaTime, 0);
+
+            // Transforma el desplazamiento al espacio del mundo.
+            Vector3 worldMovement = transform.TransformDirection(localMovement);
+
+            // Actualiza la posición del objeto en el espacio del mundo.
+            transform.position += worldMovement;
+        }
+        if(lookL){
+            // Calcula el desplazamiento en la dirección positiva del eje local y.
+            Vector3 localMovement = new Vector3(0, velocidad * Time.deltaTime, 0);
+
+            // Transforma el desplazamiento al espacio del mundo.
+            Vector3 worldMovement = transform.TransformDirection(localMovement);
+
+            // Actualiza la posición del objeto en el espacio del mundo.
+            transform.position += worldMovement;
+        }
+        if(lookUp){
+            // Calcula el desplazamiento en la dirección positiva del eje local z.
+            Vector3 localMovement = new Vector3(0, 0, velocidad * Time.deltaTime);
+
+            // Transforma el desplazamiento al espacio del mundo.
+            Vector3 worldMovement = transform.TransformDirection(localMovement);
+
+            // Actualiza la posición del objeto en el espacio del mundo.
+            transform.position += worldMovement;
+        }
+        if(lookDown){
+            // Calcula el desplazamiento en la dirección negativa del eje local z.
+            Vector3 localMovement = new Vector3(0, 0, -velocidad * Time.deltaTime);
+
+            // Transforma el desplazamiento al espacio del mundo.
+            Vector3 worldMovement = transform.TransformDirection(localMovement);
+
+            // Actualiza la posición del objeto en el espacio del mundo.
+            transform.position += worldMovement;
+        }
+        
+        Debug.Log("Mouse X: " + mouseX);
+        Debug.Log("Mouse Y: " + mouseY);
+        //player.transform.Rotate(rotationAmount);
     }
 
     //Evalua colisiones 
